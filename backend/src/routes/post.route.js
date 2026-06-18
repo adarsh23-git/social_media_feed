@@ -9,9 +9,13 @@ const upload=multer({
 })
 
 router.post("/create",upload.single('fileUrl'),postController.createPost)
-router.post("/like/:postId",postController.countLikes)
+router.get("/posts",postController.showPost)
+router.post("/like/:postId",(req,res,next)=>{
+    console.log("like hit button"),
+    next()
+},postController.countLikes)
 router.post("/dislike/:postId",postController.countdisLikes)
-router.post("/comment/:postId",postController.countLikes)  
+router.post("/comment/:postId",postController.comments)  
 
 
 

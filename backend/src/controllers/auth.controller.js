@@ -1,6 +1,7 @@
 const userModel = require("../models/user.model");
 const jwt=require("jsonwebtoken")
-const bcrypt=require("bcryptjs")
+const bcrypt=require("bcryptjs");
+
 
 
 async function userRegister(req,res){
@@ -47,12 +48,16 @@ async function userRegister(req,res){
 
 async function userLogin(req,res){
 
-    const {username,email,password}=req.body
+    // const {username,email,password}=req.body
+    const {login,password}=req.body
 
     const userFind=await userModel.findOne({
         $or:[
-            {username},
-            {email}
+            // {username},
+            // {email}
+
+            {username:login},
+            {email:login}
         ]
     })
 
@@ -77,7 +82,10 @@ async function userLogin(req,res){
 
     },process.env.JWT_SECRET)
 
-    res.cookie("token",token)
+    res.cookie("token",token,{
+        httpOnly:true
+    })
+    console.log("cookie set")
 
     res.status(200).json({
         message:"user login successfully",

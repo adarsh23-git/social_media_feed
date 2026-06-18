@@ -1,11 +1,14 @@
 const jwt=require('jsonwebtoken')
 const postModel = require("../models/post.model");
 const { uploadFile } = require("../services/storage.service");
+const { default: mongoose } = require('mongoose');
 
 
 async function createPost(req,res){
 
     const token=req.cookies.token
+    console.log("cookies:", req.cookies)
+    console.log("token:", req.cookies.token)
 
     if(!token){
         return res.status(401).json({
@@ -45,6 +48,16 @@ async function createPost(req,res){
   
 }
 
+async function showPost(req,res){
+
+    const showpost=await postModel.find()
+
+    res.status(200).json({
+        message:"post fetched successfully",
+        showpost
+    })
+}
+
 async function countLikes(req,res){
 
     const token=req.cookies.token
@@ -61,7 +74,11 @@ async function countLikes(req,res){
 
     const {postId}=req.params
 
+    console.log("postId",postId)
+
     const findPost=await postModel.findById(postId)
+
+    console.log("findPost",findPost)
 
     if(!findPost){
         return res.status(404).json({
@@ -72,12 +89,16 @@ async function countLikes(req,res){
     const alreadyLike=await findPost.likes.includes(userId)
 
     if(alreadyLike){
-        return res.json({
-            message:"already like"
-        })
+        findPost.likes=findPost.likes.filter(
+            (id)=>id.toString()!==userId
+        )
+    }
+    else{
+        findPost.likes.push(userId)
+
     }
 
-    findPost.likes.push(userId)
+    
 
     await findPost.save()
 
@@ -86,6 +107,8 @@ async function countLikes(req,res){
     })
 
 }
+
+
 
 async function countdisLikes(req,res){
 
@@ -165,4 +188,4 @@ async function comments(req,res){
     })
 }
 
-module.exports={createPost,countLikes,countdisLikes,comments}
+module.exports={createPost,countLikes,countdisLikes,comments,showPost}

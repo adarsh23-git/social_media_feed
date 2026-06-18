@@ -11,7 +11,7 @@ body{
 }
 
 body{
-  background-color: rgb(56, 54, 54);
+  background-color: rgb(255, 255, 255);
 }
 .center{
   height: 100vh;
@@ -94,4 +94,50 @@ body{
   left: -80px;
   justify-content: center;
   align-items: center;
+}
+
+
+.buttons{
+  display: flex;
+  justify-content:end;
+  position: relative;
+  gap: 20px;
+  top: 20px;
+}
+
+
+.frontPage{
+  background-color: bisque;
+}
+
+
+.create form{
+  background-color: #6a6ad9;
+  height: 400px;
+  width: 600px;
+  border-radius: 20px;
+  
+  /* display: flex;
+  flex-direction: column; */
+  position: relative;
+  
+  
+
+  
+}
+
+.createBox{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.formFile{
+  padding-left: 200px;
+  padding-top: 150px;
+}
+
+.comment_section{
+  background-color: aqua;
 }
